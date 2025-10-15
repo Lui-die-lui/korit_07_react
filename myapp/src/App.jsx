@@ -1,15 +1,16 @@
-
+import { useRef } from "react";
 import "./App.css";
-import Counter from "./Counter";
-
 
 function App() {
-  // 상수선언 배열 기본 상태값
-  // const [count, setCount] = useState(0);
+  const inputRef = useRef(null); // 레퍼런스
 
   return (
     <>
-    <Counter />
+    <input ref={inputRef} />
+    <br/>
+    <br/>
+    <button onClick={() =>inputRef.current.focus()}>강제 포커스 활성화</button>
+
     </>
   );
 }

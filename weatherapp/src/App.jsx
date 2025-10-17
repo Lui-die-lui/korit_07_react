@@ -9,6 +9,7 @@ function App() {
     icon: "",
   });
 
+  // get 요청
   useEffect(() => {
     fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=Busan&units=Metric&APIkey=내 api 키 넣기"

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { DataGrid, GridColDef, GridCellParams, GridToolbar } from "@mui/x-data-grid";
-import { Snackbar } from "@mui/material";
-
+import {
+  DataGrid,
+  GridColDef,
+  GridCellParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
+import { Button, Snackbar, IconButton, Tooltip } from "@mui/material";
 import { getCars, deleteCar } from "../api/carapi";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // import { CarResponse } from "../types";
 // table 사용 시 필요하지만 DataGrid로 변경 후 불필요하여 주석 처리
@@ -58,18 +62,24 @@ function Carlist() {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <button
-          onClick={() => {
-            if (
-              confirm(
-                `${params.row.brand}의 ${params.row.model} 자동차를 삭제하시겠습니까?`
+        <Tooltip title="Delete car">
+          <IconButton
+            aria-label="delete"
+            // size="small"
+            onClick={() => {
+              if (
+                confirm(
+                  `${params.row.brand}의 ${params.row.model} 자동차를 삭제하시겠습니까?`
+                )
               )
-            )
-              mutate(params.row._links.self.href);
-          }}
-        >
-          Delete
-        </button>
+                mutate(params.row._links.self.href);
+            }}
+          >
+            <DeleteIcon
+            // fontSize="small"
+            />
+          </IconButton>
+        </Tooltip>
       ),
     },
   ];
@@ -81,16 +91,14 @@ function Carlist() {
   /** 성공 시 렌더링 */
   return (
     <>
-    
       <AddCar />
       <DataGrid
         rows={data}
         columns={columns}
         getRowId={(row) => row._links.self.href}
         // 상단 툴 바 (= csv 다운로드)
-        slots={{toolbar: GridToolbar}}     
+        slots={{ toolbar: GridToolbar }}
       />
-  
 
       <Snackbar
         open={open}

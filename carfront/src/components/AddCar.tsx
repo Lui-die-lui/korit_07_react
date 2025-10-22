@@ -1,9 +1,17 @@
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { Car } from "../types";
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCar } from "../api/carapi";
 import CarDialogContent from "./CarDialogContent";
+import AddIcon from "@mui/icons-material/Add";
 
 function AddCar() {
   const [open, setOpen] = useState(false);
@@ -51,13 +59,28 @@ function AddCar() {
 
   return (
     <>
-      <button onClick={handleClickOpen}>New Car</button>
+    <Tooltip title="Add car">
+      <IconButton
+        onClick={handleClickOpen}
+        aria-lable="add"
+        size="small"
+        // sx={{
+        //   borderRadius: "8px", // ← 원형 대신 네모
+        //   backgroundColor: "none",
+        //   "&:hover": {
+        //     backgroundColor: "#e0e0e0",
+        //   },
+        // }}
+      >
+        <AddIcon fontSize="small" />
+      </IconButton>
+      </Tooltip>
       <Dialog open={open}>
         <DialogTitle>New Car</DialogTitle>
         <CarDialogContent car={car} handleChange={handleChange} />
         <DialogActions>
-          <button onClick={handleClickClose}>Cancle | 취소</button>
-          <button onClick={handleSave}>Save | 저장</button>
+          <Button onClick={handleClickClose}>Cancle | 취소</Button>
+          <Button onClick={handleSave}>Save | 저장</Button>
         </DialogActions>
       </Dialog>
     </>

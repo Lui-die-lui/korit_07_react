@@ -1,17 +1,24 @@
 import { ChangeEvent, useState } from "react";
 import { Car, CarResponse } from "../types";
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Tooltip
+} from "@mui/material";
 import CarDialogContent from "./CarDialogContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCar } from "../api/carapi";
 import { CarEntity } from "../types";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 type FormProps = {
   // 수정 시 특정 id값을 포함한 기존 차량 데이터
   cardata: CarResponse;
 };
-
-
 
 // 필수 props = cardata
 function EditCar({ cardata }: FormProps) {
@@ -82,7 +89,11 @@ function EditCar({ cardata }: FormProps) {
 
   return (
     <>
-      <button onClick={handleClickOpen}>Edit</button>
+    <Tooltip title="Edit car">
+      <IconButton onClick={handleClickOpen}>
+        <EditIcon />
+      </IconButton>
+      </Tooltip>
 
       <Dialog open={open} onClose={handleClickClose}>
         <DialogTitle>Edit Car</DialogTitle>
@@ -90,8 +101,8 @@ function EditCar({ cardata }: FormProps) {
         <CarDialogContent car={car} handleChange={handleChange} />
 
         <DialogActions>
-          <button onClick={handleClickClose}>Cancel | 취소</button>
-          <button onClick={handleSave}>Save | 저장</button>
+          <Button onClick={handleClickClose}>Cancel | 취소</Button>
+          <Button onClick={handleSave}>Save | 저장</Button>
         </DialogActions>
       </Dialog>
     </>
